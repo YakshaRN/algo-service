@@ -1,11 +1,14 @@
-plugins {
-	kotlin("jvm") version "1.9.25"
-	kotlin("plugin.spring") version "1.9.25"
-	id("org.springframework.boot") version "3.5.0"
-	id("io.spring.dependency-management") version "1.1.7"
-	kotlin("plugin.jpa") version "1.9.25"
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+plugins {
+	id("org.springframework.boot") version "3.3.0"
+	id("io.spring.dependency-management") version "1.1.5"
+	kotlin("jvm") version "2.0.0"
+	kotlin("plugin.spring") version "2.0.0"
+	kotlin("plugin.jpa") version "2.0.0"
+	id("com.autonomousapps.dependency-analysis") version "1.26.0"
+	id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+}
 group = "com.emint"
 version = "0.0.1-SNAPSHOT"
 
