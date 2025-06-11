@@ -1,5 +1,6 @@
 package com.emint.service
 
+import com.emint.data.StrategyDetailEntity
 import com.emint.enum.StrategyStatus
 import com.emint.model.*
 import com.emint.repo.StrategyDetailRepo
