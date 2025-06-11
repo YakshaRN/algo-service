@@ -15,6 +15,8 @@ data class Action(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: UUID? = null,
 
+    @Column(name = "step_no")
+    val stepNo: Int? = null,
 
     @Column(name = "condition_type")
     val conditionType: ConditionType? = null,
@@ -25,6 +27,6 @@ data class Action(
     @Column(name = "action_status")
     val actionStatus: ActionStatus? = null,
 
-
+    @Column(name = "next_step")
     val nextStep: Int? = null
 )

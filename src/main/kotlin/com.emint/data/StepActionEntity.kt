@@ -1,6 +1,7 @@
 package com.emint.data
 
 import com.emint.enum.ActionStatus
+import com.emint.enum.StepStatus
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
@@ -24,5 +25,5 @@ data class StepActionEntity(
     var stepNo: Int?,
 
     @Column(name = "status")
-    var status: ActionStatus?
+    var status: StepStatus?
 )
