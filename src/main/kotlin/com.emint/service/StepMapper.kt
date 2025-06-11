@@ -1,6 +1,5 @@
 package com.emint.service
 
-import com.emint.data.StepActionEntity
 import com.emint.model.*
 import com.emint.repo.StepActionRepo
 import com.emint.repo.StrategyDetailRepo
@@ -11,7 +10,8 @@ import java.util.UUID
 @Service
 class StepMapper(
     private val strategyDetailRepo: StrategyDetailRepo,
-    private val stepActionRepo: StepActionRepo
+    private val stepActionRepo: StepActionRepo,
+    private val evaluateExpression: EvaluateExpression
 ) {
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java)
@@ -28,6 +28,7 @@ class StepMapper(
 
     private fun evaluateEntryConditions(steps: MutableList<StepActionEntity>, entryConditions: EntryConditions?): StepActionEntity? {
         // Separation Of If/When/TimeBased --> requires intelligence later
+        evaluateExpression.evaluateConditions(entryConditions!!)
         TODO("Not yet implemented")
     }
 
