@@ -6,14 +6,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.vladmihalcea.hibernate.type.json.JsonType
 import jakarta.persistence.*
 import org.hibernate.annotations.Type
+import java.util.*
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "strategy_detail")
 data class StrategyDetailEntity(
     @Id
+    @Column(name = "request_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: UUID? = null,
 
     @Column(name = "timestamp")
     var timestamp: Long?,

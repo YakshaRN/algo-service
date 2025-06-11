@@ -36,7 +36,8 @@ class StrategyController(
     }
 
     @PostMapping("/deploy-strategy")
-    fun deployStrategy(@RequestHeader("userId") userId: String, @RequestBody strategyRequestId: Long): ResponseEntity<Any> {
+    fun deployStrategy(@RequestHeader("userId") userId: String, @RequestBody strategyRequestId: UUID):
+            ResponseEntity<Any> {
         log.info("Strategy validation for user: $userId, strategyRequest: $strategyRequestId")
         var body = StandardResponse()
         var status = HttpStatus.OK

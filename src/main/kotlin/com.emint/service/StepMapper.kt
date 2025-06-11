@@ -6,6 +6,7 @@ import com.emint.repo.StepActionRepo
 import com.emint.repo.StrategyDetailRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class StepMapper(
@@ -16,7 +17,7 @@ class StepMapper(
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun populateSteps(strategyRequestId: Long) {
+    fun populateSteps(strategyRequestId: UUID) {
         val strategyRequest = strategyDetailRepo.findByRequestId(strategyRequestId).strategyRequest!!
         val steps = mutableListOf<StepActionEntity>()
         evaluateEntryConditions(steps, strategyRequest.entryConditions)
