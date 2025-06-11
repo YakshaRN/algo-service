@@ -15,19 +15,19 @@ spring:
   data:
     redis:
       host: localhost
-      port: 6379
+      port: 5000
       database: 1
       connection-timeout: 500
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5447/emint?currentSchema=algo_service&reWriteBatchedInserts=true
+    url: jdbc:postgresql://localhost:5487/emint?currentSchema=user_algo_service&reWriteBatchedInserts=true
     username: emint_develop
     password: develop-quant-654
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
