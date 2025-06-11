@@ -5,8 +5,8 @@ server:
 
 # Spring Boot configuration
 spring:
-  #  profiles:
-  #    active: development
+  profiles:
+    active: development
   cache:
     type: redis
   data:
