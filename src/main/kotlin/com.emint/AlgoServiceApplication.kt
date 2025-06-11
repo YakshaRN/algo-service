@@ -8,4 +8,5 @@ class AlgoServiceApplication
 
 fun main(args: Array<String>) {
 	runApplication<AlgoServiceApplication>(*args)
+	println("Application started bitbucket :) ")
 }

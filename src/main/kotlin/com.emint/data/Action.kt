@@ -12,8 +12,7 @@ import java.util.*
 data class Action(
     @Id
     @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: UUID? = null,
+    val id: UUID = UUID.randomUUID(),
 
 
     @Column(name = "condition_type")
@@ -25,6 +24,6 @@ data class Action(
     @Column(name = "action_status")
     val actionStatus: ActionStatus? = null,
 
-
+    @Column(name = "next_step")
     val nextStep: Int? = null
 )

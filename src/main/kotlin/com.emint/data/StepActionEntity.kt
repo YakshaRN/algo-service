@@ -3,9 +3,7 @@ package com.emint.data
 import com.emint.enum.ActionStatus
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
-import org.hibernate.annotations.Type
 import java.util.*
-import com.vladmihalcea.hibernate.type.json.JsonType
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,8 +12,7 @@ data class StepActionEntity(
 
     @Id
     @Column(name = "id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: UUID? = null,
+    var id: UUID = UUID.randomUUID(),
 
     @Column(name = "strategy_id")
     var strategyId: UUID?,
