@@ -1,5 +1,6 @@
 package com.emint.config
 
+import com.emint.data.optionchain.OptionChainApiResponse
 import com.emint.model.emint.Instruments
 import com.emint.model.emint.MarketFeedDto
 import com.emint.model.emint.OpenOrderCache
@@ -35,23 +36,6 @@ class RedisConfig {
         return template
     }
 
-    @Bean(name = ["redisTemplateForLtp"])
-    fun redisTemplateForLtp(factory: RedisConnectionFactory): RedisTemplate<String, MarketFeedDto> {
-        val om = ObjectMapper()
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
-        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
-        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(MarketFeedDto::class.java)
-        val stringRedisSerializer = StringRedisSerializer()
-        val template = RedisTemplate<String, MarketFeedDto>()
-        template.connectionFactory = factory
-        template.keySerializer = stringRedisSerializer
-        template.valueSerializer = stringRedisSerializer
-        template.hashKeySerializer = stringRedisSerializer
-        template.hashValueSerializer = jackson2JsonRedisSerializer
-        template.afterPropertiesSet()
-        return template
-    }
-
     @Bean(name = ["redisTemplateForOpenOrders"])
     fun redisTemplateForOpenOrders(factory: RedisConnectionFactory): RedisTemplate<String, OpenOrderCache> {
         val om = ObjectMapper()
@@ -78,6 +62,95 @@ class RedisConfig {
         template.keySerializer = stringRedisSerializer
         template.valueSerializer = stringRedisSerializer
         template.hashKeySerializer = stringRedisSerializer
+        template.hashValueSerializer = jackson2JsonRedisSerializer
+        template.afterPropertiesSet()
+        return template
+    }
+
+    @Bean(name = ["customRedisTemplate"])
+    fun customRedisTemplate(factory: RedisConnectionFactory): RedisTemplate<Any, Any> {
+        val om = ObjectMapper()
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
+        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(Any::class.java)
+        val longRedisSerializer = StringRedisSerializer()
+        val stringRedisSerializer = StringRedisSerializer()
+        val template = RedisTemplate<Any, Any>()
+        template.setConnectionFactory(factory)
+        template.keySerializer = stringRedisSerializer
+        template.valueSerializer = longRedisSerializer
+        template.hashKeySerializer = longRedisSerializer
+        template.hashValueSerializer = jackson2JsonRedisSerializer
+        template.afterPropertiesSet()
+        return template
+    }
+
+    @Bean
+    fun redisTemplateForMarketFeed(factory: RedisConnectionFactory): RedisTemplate<String, MarketFeedDto> {
+        val om = ObjectMapper()
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
+        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(com.emint.dto.MarketFeedDto::class.java)
+        val longRedisSerializer = StringRedisSerializer()
+        val stringRedisSerializer = StringRedisSerializer()
+        val template = RedisTemplate<String, MarketFeedDto>()
+        template.setConnectionFactory(factory)
+        template.keySerializer = stringRedisSerializer
+        template.valueSerializer = longRedisSerializer
+        template.hashKeySerializer = longRedisSerializer
+        template.hashValueSerializer = jackson2JsonRedisSerializer
+        template.afterPropertiesSet()
+        return template
+    }
+
+    @Bean
+    fun redisTemplateForOptionChainResponse(factory: RedisConnectionFactory): RedisTemplate<String, OptionChainApiResponse> {
+        val om = ObjectMapper()
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
+        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(OptionChainApiResponse::class.java)
+        val longRedisSerializer = StringRedisSerializer()
+        val stringRedisSerializer = StringRedisSerializer()
+        val template = RedisTemplate<String, OptionChainApiResponse>()
+        template.setConnectionFactory(factory)
+        template.keySerializer = stringRedisSerializer
+        template.valueSerializer = longRedisSerializer
+        template.hashKeySerializer = longRedisSerializer
+        template.hashValueSerializer = jackson2JsonRedisSerializer
+        template.afterPropertiesSet()
+        return template
+    }
+
+    @Bean(name = ["customRedisTemplateForOptionChain"])
+    fun customRedisTemplateForOptionChain(factory: RedisConnectionFactory): RedisTemplate<String, Instruments> {
+        val om = ObjectMapper()
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
+        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(com.emint.dto.instruments.Instruments::class.java)
+        val stringRedisSerializer = StringRedisSerializer()
+        val template = RedisTemplate<String, Instruments>()
+        template.setConnectionFactory(factory)
+        template.keySerializer = stringRedisSerializer
+        template.valueSerializer = stringRedisSerializer
+        template.hashKeySerializer = stringRedisSerializer
+        template.hashValueSerializer = jackson2JsonRedisSerializer
+        template.afterPropertiesSet()
+        return template
+    }
+
+    @Bean(name = ["redisTemplateForStrikes"])
+    fun redisTemplateForStrikes(factory: RedisConnectionFactory): RedisTemplate<String, HashSet<Double>> {
+        val om = ObjectMapper()
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)
+        om.configure(DeserializationFeature.USE_LONG_FOR_INTS, true)
+        val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(HashSet::class.java)
+        val longRedisSerializer = StringRedisSerializer()
+        val stringRedisSerializer = StringRedisSerializer()
+        val template = RedisTemplate<String, HashSet<Double>>()
+        template.setConnectionFactory(factory)
+        template.keySerializer = stringRedisSerializer
+        template.valueSerializer = longRedisSerializer
+        template.hashKeySerializer = longRedisSerializer
         template.hashValueSerializer = jackson2JsonRedisSerializer
         template.afterPropertiesSet()
         return template
