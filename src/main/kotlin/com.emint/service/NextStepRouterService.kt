@@ -10,8 +10,10 @@ class NextStepRouterService(
 
     fun processReceivedMessageForRouting(messageReceived: KsqlReceivedMessage) {
         val messageUuid = messageReceived.strategyLegId
+
+        val actionStep=strategyMapper.getStepByStrategyLegId(messageUuid)
         // Check for current step.
-        val currentStep = strategyMapper.getStepByUuid(messageUuid)
+        val currentStep = strategyMapper.getStepByUuid(actionStep?.strategyId!!)
 
         // Validate Status
 

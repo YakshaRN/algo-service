@@ -13,7 +13,7 @@ spring:
   data:
     redis:
       host: localhost
-      port: 5002
+      port: 5000
       database: 1
       connection-timeout: 500
   datasource:

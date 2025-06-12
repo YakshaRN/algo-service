@@ -1,10 +1,12 @@
 package com.emint.service
 
+import com.emint.data.Action
 import com.emint.data.StepActionEntity
 import com.emint.enum.StepName
 import com.emint.enum.StepStatus
 import com.emint.model.*
-import com.emint.repo.StepActionRepo
+import com.emint.repo.ActionRepo
+import com.emint.repo.StepActivityRepo
 import com.emint.repo.StrategyDetailRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -13,7 +15,8 @@ import java.util.UUID
 @Service
 class StepMapper(
     private val strategyDetailRepo: StrategyDetailRepo,
-    private val stepActionRepo: StepActionRepo,
+    private val stepActivityRepo: StepActivityRepo,
+    private val actionRepo: ActionRepo,
     private val evaluateExpression: EvaluateExpression
 ) {
     companion object {
@@ -29,7 +32,12 @@ class StepMapper(
     }
 
     fun getStepByUuid(strategyRequestId: UUID): MutableList<StepActionEntity> {
-        val strategyAction = stepActionRepo.findByStrategyId(strategyRequestId)
+        val strategyAction = stepActivityRepo.findByStrategyId(strategyRequestId)
+        return strategyAction
+    }
+
+    fun getStepByStrategyLegId(strategyLegId: UUID): Action? {
+        val strategyAction = actionRepo.findByStrategyLegId(strategyLegId)
         return strategyAction
     }
 

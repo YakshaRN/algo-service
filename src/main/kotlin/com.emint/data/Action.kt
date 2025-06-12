@@ -17,6 +17,9 @@ data class Action(
     @Column(name = "strategy_id")
     var strategyId: UUID?,
 
+    @Column(name = "strategy_leg_id")
+    var strategyLegId: UUID?,
+
     @Column(name = "step_no")
     val stepNo: Int? = null,
 
