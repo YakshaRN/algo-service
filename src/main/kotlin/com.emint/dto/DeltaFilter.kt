@@ -4,5 +4,5 @@ import com.emint.enums.ComparisonType
 
 data class DeltaFilter(
     val comparison: ComparisonType,
-    val value: Double,
+    val value: Double
 )

@@ -4,6 +4,10 @@ server:
   http2:
     enabled: true
 
+serviceUrl:
+  chartService: https://dev.e-mint.in/chart
+  validationServiceUrl: https://dev.e-mint.in/order-validation
+
 # Spring Boot configuration
 spring:
   profiles:
@@ -30,6 +34,20 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+
+  cloud:
+    function:
+      definition: ksqlConsumer;
+    stream:
+      kafka:
+        binder:
+          auto-create-topics: true
+          brokers: localhost:9092
+          replicationFactor: 3
+      bindings:
+        ksqlConsumer-in-0:
+          destination: dev-ksql-response
+          group: algoService
 
 # Logger configuration
 logging:

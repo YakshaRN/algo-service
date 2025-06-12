@@ -25,7 +25,7 @@ data class OptionChainDto(
     @JsonProperty("strikePrice")
     var strikePrice: Double?,
     @JsonProperty("ltp")
-    var ltp: Long?,
+    var ltp: Long?
 //    var oi: Long? = 0L,
 //    var prevOi: Long? = 0L
 )

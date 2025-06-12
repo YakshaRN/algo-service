@@ -20,8 +20,8 @@ class RedisUtil(
     @Qualifier("redisTemplateForPositionsInUi") private val redisTemplateForPositionsInUi: RedisTemplate<String, PositionsInUiRedisDto>,
     @Qualifier("redisTemplateForStrikes") private val redisTemplateForStrikes: RedisTemplate<String, HashSet<Double>>,
     @Qualifier("redisTemplateForOptionChainResponse") private val redisTemplateForOptionChainResponse: RedisTemplate<String, OptionChainApiResponse>,
-    @Qualifier("customRedisTemplateForOptionChain") private val customRedisTemplateForOptionChain: RedisTemplate<String, Instruments>,
-    ) {
+    @Qualifier("customRedisTemplateForOptionChain") private val customRedisTemplateForOptionChain: RedisTemplate<String, Instruments>
+) {
     companion object {
         private val log = LoggerFactory.getLogger(RedisUtil::class.java)
     }
@@ -65,7 +65,7 @@ class RedisUtil(
         val value =
             redisTemplateForOptionChainResponse.opsForHash<String, OptionChainApiResponse>().get(
                 ApplicationConstants.OPTION_CHAIN_RESPONSE,
-                key,
+                key
             )
         log.info("getKeyValue key:$key")
         return value

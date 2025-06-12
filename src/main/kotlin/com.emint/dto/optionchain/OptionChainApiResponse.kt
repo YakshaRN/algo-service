@@ -8,5 +8,5 @@ data class OptionChainApiResponse(
     @JsonProperty("underlying")
     var underlying: OptionChainDto?,
     @JsonProperty("optionChain")
-    var optionChain: List<OptionChainResponse>?,
+    var optionChain: List<OptionChainResponse>?
 )

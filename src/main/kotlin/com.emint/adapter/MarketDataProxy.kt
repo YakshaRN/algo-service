@@ -1,6 +1,5 @@
 package com.emint.adapter
 
-import com.emint.config.FeignLoggingConfig
 import com.emint.model.InstrumentDataRequest
 import com.emint.model.InstrumentDataResponse
 import org.springframework.cloud.openfeign.FeignClient
@@ -8,12 +7,8 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestBody
 
-@FeignClient(
-    value = "chartService",
-    url = "https://dev.e-mint.in/chart",
-    configuration = [FeignLoggingConfig::class]
-)
-interface MarketDataAdapter {
+@FeignClient(value = "chartService", url = "\${serviceUrl.chartService}")
+interface MarketDataProxy {
 
     @GetMapping(
         value = ["/charting/min"],

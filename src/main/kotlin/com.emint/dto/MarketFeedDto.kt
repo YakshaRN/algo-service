@@ -28,15 +28,15 @@ data class MarketFeedDto(
     var prevClose: String?,
     var prevOi: Long?,
     var lpp: String?,
-    var ltt: Long?,
+    var ltt: Long?
 ) {
     constructor() : this(
         "", 0, 0, "", "", "", "", "", null,
-        0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null,
+        0, 0.0, 0, 0, 0, 0, 0, 0, 0, 0, null, null, null, null, null, null
     )
 
     constructor(symbol: String, localTs: Long, open: String, high: String, low: String, ltp: Long, close: String, ttq: Long) : this(
         symbol, localTs, 0, null, open, high, low, close, null, ttq, 0.0, ltp, 0, 0, 0, 0, 0, 0,
-        0, null, null, null, null, null, null,
+        0, null, null, null, null, null, null
     )
 }

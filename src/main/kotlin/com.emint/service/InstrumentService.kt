@@ -7,18 +7,26 @@ import com.emint.dto.instruments.OptionTypeEnums
 import com.emint.enums.ComparisonType
 import com.emint.enums.PriceField
 import com.emint.enums.SpotOrFuture
+import com.emint.repo.StrategyDetailRepo
 import com.emint.util.RedisUtil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.util.UUID
 import javax.sound.midi.Instrument
 import kotlin.math.abs
 
 @Service
 class InstrumentService(
     private val redisUtil: RedisUtil,
+    private val strategyDetailRepo: StrategyDetailRepo
 ) {
     companion object {
         private val log = LoggerFactory.getLogger(InstrumentService::class.java)
+    }
+
+    fun findInstrumentsForEngine(strategyId: UUID) {
+        val strategy = strategyDetailRepo.findById(strategyId)
+        // call findInstrumentsForEngine(InstrumentFilterRequest)
     }
 
     fun findInstrumentsForEngine(request: InstrumentFilterRequest): Any? {
@@ -66,7 +74,7 @@ class InstrumentService(
                     getAtmStrikePrice(
                         underlying,
                         it,
-                        ltpUnderlying.ltp.toDouble() / 100.0,
+                        ltpUnderlying.ltp.toDouble() / 100.0
                     )
                 }
 
@@ -151,7 +159,7 @@ class InstrumentService(
 
     fun getFieldValue(
         dto: MarketFeedDto,
-        field: PriceField,
+        field: PriceField
     ): Long {
         return when (field) {
             PriceField.LTP -> dto.ltp
@@ -167,7 +175,7 @@ class InstrumentService(
     private fun getAtmStrikePrice(
         underlying: String,
         atmOffset: Int,
-        ltp: Double,
+        ltp: Double
     ): Double {
         val sortedStrikesForUnderlying = redisUtil.getStrikesForUnderlying(underlying)?.sorted()
 

@@ -6,5 +6,5 @@ import com.emint.enums.PriceField
 data class PriceFilter(
     val field: PriceField,
     val comparison: ComparisonType,
-    val value: Double,
+    val value: Double
 )

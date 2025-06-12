@@ -18,7 +18,7 @@ data class OpenApiLtpData(
     @JsonProperty("dprH")
     var dprH: Double?,
     @JsonProperty("dprL")
-    var dprL: Double?,
+    var dprL: Double?
 ) {
     constructor() : this(
         0.0,
@@ -27,6 +27,6 @@ data class OpenApiLtpData(
         0.0,
         0.0,
         0.0,
-        0.0,
+        0.0
     )
 }

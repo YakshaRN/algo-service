@@ -2,6 +2,9 @@ package com.emint.constants
 
 class ApplicationConstants {
     companion object {
+        const val STRIKE_SELECTION = "StrikeSelection"
+        const val ORDER_PLACEMENT = "OrderPlacement"
+        const val EXIT_ORDER = "ExitOrder"
         const val LTP: String = "LTP"
         const val OPTION_CHAIN_RESPONSE: String = "OPTION_CHAIN_RESPONSE"
 

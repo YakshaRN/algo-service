@@ -10,5 +10,5 @@ data class OptionChainResponse(
     @JsonProperty("pe")
     var pe: OptionChainDto?,
     @JsonProperty("strikePrice")
-    var strikePrice: Double?,
+    var strikePrice: Double?
 )

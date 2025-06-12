@@ -59,5 +59,5 @@ data class Instruments(
     @JsonProperty("tickSize")
     var tickSize: Double?,
     @JsonProperty("freezeQty")
-    var freezeQty: Long?,
+    var freezeQty: Long?
 )
