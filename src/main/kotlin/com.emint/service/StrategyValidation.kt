@@ -15,13 +15,13 @@ class StrategyValidation(val strategyDetailRepo: StrategyDetailRepo) {
             validateStrikeSelection(strategyRequest.strikeSelection) &&
             validateExecutionSequence(strategyRequest.executionSequence) &&
             validateExitCondition(strategyRequest.exitConditions)
-            ){
+        ) {
             val strategyDetailEntity = StrategyDetailEntity(
                 timestamp = Instant.now().toEpochMilli(),
                 userId = userId,
                 strategyRequest = strategyRequest,
                 status = StrategyStatus.CREATED
-                )
+            )
             strategyDetailRepo.save(strategyDetailEntity)
             return true
         } else {

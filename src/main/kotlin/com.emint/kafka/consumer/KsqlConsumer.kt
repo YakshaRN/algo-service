@@ -1,4 +1,4 @@
-package com.emint.producer
+package com.emint.kafka.consumer
 
 import com.emint.model.KsqlReceivedMessage
 import com.emint.service.NextStepRouterService
@@ -12,7 +12,7 @@ class KsqlConsumer(
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun receivedFeedFromKsql(messageReceived: KsqlReceivedMessage){
+    fun receivedFeedFromKsql(messageReceived: KsqlReceivedMessage) {
         nextStepRouterService.processReceivedMessageForRouting(messageReceived)
     }
 }

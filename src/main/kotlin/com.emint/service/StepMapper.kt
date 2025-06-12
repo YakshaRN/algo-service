@@ -1,6 +1,8 @@
 package com.emint.service
 
 import com.emint.data.StepActionEntity
+import com.emint.enum.StepName
+import com.emint.enum.StepStatus
 import com.emint.model.*
 import com.emint.repo.StepActionRepo
 import com.emint.repo.StrategyDetailRepo
@@ -18,8 +20,7 @@ class StepMapper(
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun populateSteps(strategyRequestId: UUID) {
-        val strategyRequest = strategyDetailRepo.findByRequestId(strategyRequestId).strategyRequest!!
+    fun populateSteps(strategyRequest: StrategyRequest) {
         val steps = mutableListOf<StepActionEntity>()
         evaluateEntryConditions(steps, strategyRequest.entryConditions)
         evaluateBrokerSymbols(steps, strategyRequest.strikeSelection)
@@ -32,15 +33,18 @@ class StepMapper(
         return strategyAction
     }
 
-    private fun evaluateEntryConditions(steps: MutableList<StepActionEntity>, entryConditions: EntryConditions?): StepActionEntity? {
+    private fun evaluateEntryConditions(steps: MutableList<StepActionEntity>, entryConditions: EntryConditions?): StepActionEntity {
         // Separation Of If/When/TimeBased --> requires intelligence later
-        evaluateExpression.evaluateConditions(entryConditions!!)
+        val bool = evaluateExpression.evaluateExpression(entryConditions?.expression!!, entryConditions.brokerSymbol!!)
+        println("bool: $bool")
+        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.ENTRY_CONDITION, 1, StepStatus.INITIATED)
         TODO("Not yet implemented")
     }
 
-    private fun evaluateBrokerSymbols(steps: MutableList<StepActionEntity>, strikeSelection: StrikeSelection?): StepActionEntity? {
+    private fun evaluateBrokerSymbols(steps: MutableList<StepActionEntity>, strikeSelection: StrikeSelection?): StepActionEntity {
         // list of --> BrokerSymbol
         TODO("Not yet implemented")
+        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.STRIKE_SELECTION, 1, StepStatus.INITIATED)
     }
 
     private fun evaluateExecutionOrder(executionSequence: ExecutionSequence?, exitConditions: ExitConditions?): MutableList<StepActionEntity> {
@@ -53,10 +57,12 @@ class StepMapper(
         // condition4 -> on Execution of L3 --> send L4
         // condition4 -> on Execution of L4 --> do nothing
         TODO("Not yet implemented")
+        return mutableListOf()
     }
 
-    private fun evaluateExitConditions(exitConditions: ExitConditions?): StepActionEntity? {
+    private fun evaluateExitConditions(exitConditions: ExitConditions?): StepActionEntity {
         // Separation Of If/When/TimeBased --> requires intelligence later
         TODO("Not yet implemented")
+        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.EXIT_CONDITION, 1, StepStatus.INITIATED)
     }
 }

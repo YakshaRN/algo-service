@@ -1,95 +1,38 @@
 package com.emint.service
 
-import com.emint.functionPattern.StringFunctionMapper.Companion.functionRegexMap
+import com.emint.config.ExpressionEvaluator
 import com.emint.model.*
-import com.emint.repo.StepActionRepo
-import com.emint.repo.StrategyDetailRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import javax.script.ScriptEngineManager
 
 @Service
-class EvaluateExpression(
-    private val strategyDetailRepo: StrategyDetailRepo,
-    private val stepActionRepo: StepActionRepo
-) {
+class EvaluateExpression(private val functionDispatcher: FunctionDispatcher) {
+
     companion object {
         private val log = LoggerFactory.getLogger(this::class.java)
+        private val functionCallRegex = Regex("""([A-Z]+)\(([^()]*)\)""")
     }
 
-    fun evaluateConditions(entryConditions: EntryConditions) {
-        val input = entryConditions.expression!!
-        val result = evaluateExpression(input)
-        println("Final Result: $result")
-    }
+    fun evaluateExpression(rawExpression: String, symbol: String): Boolean {
+        var expr = rawExpression
+        functionCallRegex.findAll(rawExpression).forEach { match ->
+            val full = match.value
+            val functionName = match.groupValues[1]
+            val paramString = match.groupValues[2]
 
-    fun evaluateExpression(expression: String): Boolean {
-        val allPatterns = functionRegexMap.values.map { it.pattern }.joinToString("|", "(", ")")
-        val combinedRegex = Regex(allPatterns)
+            val params: List<Any> = paramString.split(",").map { it.trim() }.map { it.toIntOrNull() ?: it.removeSurrounding("\"") }
+            val paramsIncludingSymbol = mutableListOf<Any>(symbol)
+            paramsIncludingSymbol.addAll(params)
 
-        var evaluatedExpression = expression
+            val key = FunctionDispatcherKey(functionName, paramsIncludingSymbol.size)
+            val function = functionDispatcher.functionDispatchMap[key]
+                ?: throw IllegalArgumentException("No function for $functionName with ${params.size} params")
 
-        combinedRegex.findAll(expression).forEach { match ->
-            val condition = match.value
-            val result = evaluateCondition(condition)
-            evaluatedExpression = evaluatedExpression.replace(condition, result.toString())
+            val result = function(paramsIncludingSymbol)
+            log.info("Evaluated $functionName(${params.joinToString()}) => $result")
+            expr = expr.replaceFirst(full, result.toString())
         }
-
-        return evalBooleanExpression(evaluatedExpression)
+        log.info("Final expression to evaluate: $expr")
+        return ExpressionEvaluator.evaluate(expr)
     }
-
-    fun evaluateCondition(condition: String): Boolean {
-        for ((functionName, regex) in functionRegexMap) {
-            val match = regex.matchEntire(condition)
-            if (match != null) {
-                val field = match.groupValues[1]
-                val offset = match.groupValues[2].toInt()
-                val operator = match.groupValues[3]
-                val threshold = match.groupValues[4].toDouble()
-
-                val value = when (functionName) {
-                    "MD" -> resolveMD(field, offset)
-                    "GD" -> resolveGD(field, offset)
-                    else -> throw IllegalArgumentException("No resolver for $functionName")
-                }
-
-                return compare(value, operator, threshold)
-            }
-        }
-
-        throw IllegalArgumentException("No match found for condition: $condition")
-    }
-
-    fun resolveMD(field: String, offset: Int): Double {
-        return when (field) {
-            "O" -> 45.0 + offset
-            "C" -> 52.0 + offset
-            else -> 0.0
-        }
-    }
-
-    fun resolveGD(field: String, offset: Int): Double {
-        return when (field) {
-            "OI" -> 25.0 + offset
-            else -> 0.0
-        }
-    }
-
-    fun compare(value: Double, operator: String, threshold: Double): Boolean {
-        return when (operator) {
-            ">" -> value > threshold
-            "<" -> value < threshold
-            ">=" -> value >= threshold
-            "<=" -> value <= threshold
-            "==" -> value == threshold
-            "!=" -> value != threshold
-            else -> throw IllegalArgumentException("Unknown operator: $operator")
-        }
-    }
-
-    fun evalBooleanExpression(expression: String): Boolean {
-        val engine = ScriptEngineManager().getEngineByName("JavaScript")
-        return engine.eval(expression) as Boolean
-    }
-
 }

@@ -36,13 +36,12 @@ class StrategyController(
     }
 
     @PostMapping("/deploy-strategy")
-    fun deployStrategy(@RequestHeader("userId") userId: String, @RequestHeader strategyRequestId: UUID):
-            ResponseEntity<Any> {
-        log.info("Strategy validation for user: $userId, strategyRequest: $strategyRequestId")
+    fun deployStrategy(@RequestBody strategyRequest: StrategyRequest): ResponseEntity<Any> {
+        log.info("Deploying Strategy: $strategyRequest")
         var body = StandardResponse()
         var status = HttpStatus.OK
         try {
-            val validatedResponse = stepMapper.populateSteps(strategyRequestId)
+            val validatedResponse = stepMapper.populateSteps(strategyRequest)
             body = StandardResponse(status = true, message = "Strategy request created successfully.", validatedResponse)
         } catch (t: Throwable) {
             status = HttpStatus.BAD_REQUEST
