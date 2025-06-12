@@ -3,9 +3,9 @@ package com.emint.enum
 enum class TimeFrame {
     Now,
     Minute,
-    _5Minute,
-    _15Minute,
-    _30Minute,
+    FiveMinute,
+    FifteenMinute,
+    ThirtyMinute,
     Hour,
     Day,
     Week,

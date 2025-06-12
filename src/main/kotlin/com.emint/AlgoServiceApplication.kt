@@ -7,6 +7,6 @@ import org.springframework.boot.runApplication
 class AlgoServiceApplication
 
 fun main(args: Array<String>) {
-	runApplication<AlgoServiceApplication>(*args)
-	println("Application started bitbucket :) ")
+    runApplication<AlgoServiceApplication>(*args)
+    println("Application started bitbucket :) ")
 }

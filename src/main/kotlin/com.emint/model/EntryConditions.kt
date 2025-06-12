@@ -1,9 +1,9 @@
 package com.emint.model
 
 import com.emint.enum.ConditionType
+import com.emint.enum.Segment
 import com.emint.enum.Signal
 import com.emint.enum.TimeFrame
-import com.emint.enum.Segment
 
 data class EntryConditions(
     val conditionsType: ConditionType?,
