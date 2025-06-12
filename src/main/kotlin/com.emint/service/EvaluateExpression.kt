@@ -62,7 +62,7 @@ class EvaluateExpression(
 
     fun resolveMD(field: String, offset: Int): Double {
         return when (field) {
-            "O" -> 45.0 + offset  // Example value
+            "O" -> 45.0 + offset
             "C" -> 52.0 + offset
             else -> 0.0
         }

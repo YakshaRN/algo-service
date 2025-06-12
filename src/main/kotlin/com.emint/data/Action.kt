@@ -14,6 +14,9 @@ data class Action(
     @Column(name = "id", nullable = false, unique = true)
     val id: UUID = UUID.randomUUID(),
 
+    @Column(name = "strategy_id")
+    var strategyId: UUID?,
+
     @Column(name = "step_no")
     val stepNo: Int? = null,
 
