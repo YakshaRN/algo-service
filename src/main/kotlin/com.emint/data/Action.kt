@@ -1,7 +1,6 @@
 package com.emint.data
 
 import com.emint.enum.ActionStatus
-import com.emint.enum.ConditionType
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.*
 import java.util.*
@@ -17,21 +16,12 @@ data class Action(
     @Column(name = "strategy_id")
     var strategyId: UUID?,
 
-    @Column(name = "strategy_leg_id")
-    var strategyLegId: UUID?,
-
-    @Column(name = "step_no")
-    val stepNo: Int? = null,
-
-    @Column(name = "condition_type")
-    val conditionType: ConditionType? = null,
-
     @Column(name = "condition")
-    val condition: String? = null,
+    var condition: String? = null,
 
     @Column(name = "action_status")
     val actionStatus: ActionStatus? = null,
 
     @Column(name = "next_step")
-    val nextStep: Int? = null
+    val nextStep: UUID? = null
 )

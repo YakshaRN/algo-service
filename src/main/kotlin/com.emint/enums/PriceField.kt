@@ -8,5 +8,5 @@ enum class PriceField {
     CLOSE,
     VOLUME,
     OI_CHANGE,
-    OI,
+    OI
 }

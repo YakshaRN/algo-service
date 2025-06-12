@@ -13,6 +13,6 @@ class KsqlConsumer(
     }
 
     fun receivedFeedFromKsql(messageReceived: KsqlReceivedMessage) {
-        nextStepRouterService.processReceivedMessageForRouting(messageReceived)
+        nextStepRouterService.processReceivedMessageForRouting(messageReceived.stepId)
     }
 }

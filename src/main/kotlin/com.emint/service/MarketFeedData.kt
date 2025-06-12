@@ -1,5 +1,6 @@
 package com.emint.service
 
+import com.emint.adapter.MarketDataProxy
 import com.emint.model.InstrumentDataRequest
 import com.emint.model.InstrumentDataResponse
 import com.emint.util.RedisUtil
@@ -8,14 +9,14 @@ import org.springframework.stereotype.Service
 @Service
 class MarketFeedData(
     private val redisUtil: RedisUtil,
-    private val marketDataAdapter: MarketDataAdapter
+    private val marketDataProxy: MarketDataProxy
 ) {
     fun fetch1MinData(instrumentDataRequest: InstrumentDataRequest): InstrumentDataResponse {
-        return marketDataAdapter.fetchData1Min(instrumentDataRequest)
+        return marketDataProxy.fetchData1Min(instrumentDataRequest)
     }
 
     fun fetch1DayData(instrumentDataRequest: InstrumentDataRequest): InstrumentDataResponse {
-        return marketDataAdapter.fetchData1day(instrumentDataRequest)
+        return marketDataProxy.fetchData1day(instrumentDataRequest)
     }
 
     fun getMarketData(symbol: String, field: String, timeInterval: Int): Double {

@@ -16,5 +16,5 @@ data class InstrumentFilterRequest(
     val indicator: String? = null,
     val strikeRangeStart: Double? = null,
     val strikeRangeEnd: Double? = null,
-    val optionChainResponse: OptionChainResponse?,
+    val optionChainResponse: OptionChainResponse?
 )

@@ -13,7 +13,7 @@ class EvaluateExpression(private val functionDispatcher: FunctionDispatcher) {
         private val functionCallRegex = Regex("""([A-Z]+)\(([^()]*)\)""")
     }
 
-    fun evaluateExpression(rawExpression: String, symbol: String): Boolean {
+    fun evaluateExpression(rawExpression: String): Boolean {
         var expr = rawExpression
         functionCallRegex.findAll(rawExpression).forEach { match ->
             val full = match.value
@@ -21,14 +21,12 @@ class EvaluateExpression(private val functionDispatcher: FunctionDispatcher) {
             val paramString = match.groupValues[2]
 
             val params: List<Any> = paramString.split(",").map { it.trim() }.map { it.toIntOrNull() ?: it.removeSurrounding("\"") }
-            val paramsIncludingSymbol = mutableListOf<Any>(symbol)
-            paramsIncludingSymbol.addAll(params)
 
-            val key = FunctionDispatcherKey(functionName, paramsIncludingSymbol.size)
+            val key = FunctionDispatcherKey(functionName, params.size)
             val function = functionDispatcher.functionDispatchMap[key]
                 ?: throw IllegalArgumentException("No function for $functionName with ${params.size} params")
 
-            val result = function(paramsIncludingSymbol)
+            val result = function(params)
             log.info("Evaluated $functionName(${params.joinToString()}) => $result")
             expr = expr.replaceFirst(full, result.toString())
         }

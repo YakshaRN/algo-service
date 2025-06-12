@@ -11,5 +11,5 @@ enum class SegmentEnums {
 
     ETF,
 
-    OPTION_CHAIN,
+    OPTION_CHAIN
 }
