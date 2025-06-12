@@ -27,6 +27,11 @@ class StepMapper(
         steps.addAll(executionSteps)
     }
 
+    fun getStepByUuid(strategyRequestId: UUID): MutableList<StepActionEntity> {
+        val strategyAction = stepActionRepo.findByStrategyId(strategyRequestId)
+        return strategyAction
+    }
+
     private fun evaluateEntryConditions(steps: MutableList<StepActionEntity>, entryConditions: EntryConditions?): StepActionEntity? {
         // Separation Of If/When/TimeBased --> requires intelligence later
         evaluateExpression.evaluateConditions(entryConditions!!)

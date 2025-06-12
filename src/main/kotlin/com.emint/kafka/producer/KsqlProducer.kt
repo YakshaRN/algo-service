@@ -1,4 +1,4 @@
-package com.emint.producer
+package com.emint.kafka.producer
 
 import org.slf4j.LoggerFactory
 
