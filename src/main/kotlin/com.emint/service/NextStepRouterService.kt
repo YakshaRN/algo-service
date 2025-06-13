@@ -3,29 +3,44 @@ package com.emint.service
 import com.emint.constants.ApplicationConstants.Companion.EXIT_ORDER
 import com.emint.constants.ApplicationConstants.Companion.ORDER_PLACEMENT
 import com.emint.constants.ApplicationConstants.Companion.STRIKE_SELECTION
+import com.emint.event.StepEvent
 import com.emint.repo.ActionRepo
+import org.slf4j.LoggerFactory
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class NextStepRouterService(
-    val actionRepo: ActionRepo,
-    val actionMapper: ActionMapper,
-    val instrumentService: InstrumentService,
-    val orderPlacement: OrderPlacement
+    private val actionRepo: ActionRepo,
+    private val eventPublisher: ApplicationEventPublisher
 ) {
 
-    fun processReceivedMessageForRouting(stepId: UUID) {
-        val nextStep = actionRepo.findById(stepId).get()
-        if (nextStep.condition == STRIKE_SELECTION) {
-            // REMARK: strike selection--> mention of strike details in strategy leg & order execution
-            instrumentService.findInstrumentsForEngine(nextStep.strategyId!!)
-        } else if (nextStep.condition?.contains(ORDER_PLACEMENT) == true) {
-            orderPlacement.placeOrder(nextStep.strategyId!!, nextStep.condition!!)
-        } else if (nextStep.condition?.contains(EXIT_ORDER) == true) {
-            orderPlacement.exitOrder(nextStep.strategyId!!, nextStep.condition!!)
-        } else {
-            actionMapper.processExpression(nextStep)
+    companion object {
+        private val log = LoggerFactory.getLogger(this::class.java)
+    }
+
+    fun processNextCondition(stepId: UUID) {
+        try {
+            log.info("Processing expression for stepId: $stepId")
+            val nextStep = actionRepo.findById(stepId).get()
+            when {
+                nextStep.condition == STRIKE_SELECTION -> {
+                    eventPublisher.publishEvent(StepEvent.StrikeSelectionRequested(nextStep.strategyId!!))
+                }
+                nextStep.condition?.contains(ORDER_PLACEMENT) == true -> {
+                    eventPublisher.publishEvent(StepEvent.OrderPlacementRequested(nextStep.strategyId!!, nextStep.condition!!))
+                }
+                nextStep.condition?.contains(EXIT_ORDER) == true -> {
+                    eventPublisher.publishEvent(StepEvent.ExitOrderRequested(nextStep.strategyId!!, nextStep.condition!!))
+                }
+                else -> {
+                    eventPublisher.publishEvent(StepEvent.ExpressionEvaluated(stepId))
+                }
+            }
+        } catch (e: Exception) {
+            log.error("Error processing expression for stepId: $stepId: ${e.message}", e)
+            throw e
         }
     }
 }

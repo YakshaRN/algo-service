@@ -1,5 +1,6 @@
 package com.emint.service
 
+import com.emint.constants.ApplicationConstants.Companion.STRIKE_SELECTION
 import com.emint.data.Action
 import com.emint.data.StepActionEntity
 import com.emint.enum.ActionStatus
@@ -24,23 +25,22 @@ class StepMapper(
 
     fun populateSteps(strategyRequest: StrategyRequest) {
         val steps = mutableListOf<StepActionEntity>()
-        evaluateEntryConditions(steps, strategyRequest.entryConditions)
+        evaluateEntryConditions(strategyRequest.entryConditions)
         evaluateBrokerSymbols(steps, strategyRequest.strikeSelection)
         val executionSteps = evaluateExecutionOrder(strategyRequest.executionSequence, strategyRequest.exitConditions)
         steps.addAll(executionSteps)
     }
 
-    private fun evaluateEntryConditions(steps: MutableList<StepActionEntity>, entryConditions: EntryConditions?): StepActionEntity {
-        // Separation Of If/When/TimeBased --> requires intelligence later
+    private fun evaluateEntryConditions(entryConditions: EntryConditions?) {
         val cleaned = entryConditions?.expression!!.replace("\\s+".toRegex(), "")
-        val step = Action(strategyId = UUID.randomUUID(), condition = "Strike Selection", actionStatus = ActionStatus.WAITING, nextStep = null)
+        val step = Action(strategyId = UUID.randomUUID(), condition = STRIKE_SELECTION, actionStatus = ActionStatus.WAITING, nextStep = null)
         actionRepo.save(step)
         val currentStep = Action(strategyId = UUID.randomUUID(), condition = cleaned, actionStatus = ActionStatus.WAITING, nextStep = step.id)
         actionMapper.processExpression(currentStep)
 
-        val bool = evaluateExpression.evaluateExpression(entryConditions?.expression!!)
+        val bool = evaluateExpression.evaluateExpression(entryConditions.expression)
         println("bool: $bool")
-        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.ENTRY_CONDITION, 1, StepStatus.INITIATED)
+        return
         TODO("Not yet implemented")
     }
 

@@ -17,12 +17,12 @@ spring:
   data:
     redis:
       host: localhost
-      port: 5000
+      port: 5002
       database: 1
       connection-timeout: 500
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5487/emint?currentSchema=algo_service
+    url: jdbc:postgresql://localhost:5487/emint?currentSchema=user_algo_service
     username: emint_develop
     password: develop-quant-654
 
