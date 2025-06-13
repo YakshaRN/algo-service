@@ -16,7 +16,7 @@ data class StrategyLegEntity(
     @Column(name = "id", nullable = false, unique = true)
     var id: UUID = UUID.randomUUID(),
 
-    @Column(name = "user_id")
+    @Column(name = "strategy_id")
     var strategyId: UUID,
 
     @Column(name = "leg_name")
@@ -26,7 +26,7 @@ data class StrategyLegEntity(
     val orderTime: Long,
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "transactionType")
+    @Column(name = "transaction_type")
     val transactionType: TransactionType,
 
     @Column(name = "quantity")
@@ -36,20 +36,20 @@ data class StrategyLegEntity(
     var price: Double? = null,
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "orderType")
+    @Column(name = "order_type")
     val orderType: OrderType,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     var status: OrderStatus?,
 
-    @Column(name = "instrumentId")
+    @Column(name = "instrument_id")
     val instrumentId: String,
 
-    @Column(name = "instrumentSymbol")
+    @Column(name = "instrument_symbol")
     val instrumentSymbol: String,
 
-    @Column(name = "brokerSymbol")
+    @Column(name = "broker_symbol")
     val brokerSymbol: String,
 
     @Enumerated(EnumType.STRING)

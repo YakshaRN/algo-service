@@ -21,8 +21,9 @@ class ActionMapper(
     fun processExpression(step: Action) {
         val expr = step.condition!!
         val (operatorIndex, operator) = findNextTopLevelOperator(expr) ?: run {
-            evaluateExpression.evaluateExpression(expr)
-            nextStepRouterService.processReceivedMessageForRouting(step.nextStep!!)
+            if (evaluateExpression.evaluateExpression(expr)) {
+                nextStepRouterService.processNextCondition(step.nextStep!!)
+            }
             return
         }
 
