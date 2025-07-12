@@ -1,9 +1,9 @@
 package com.emint.service
 
-import com.emint.data.optionchain.OptionChainDto
 import com.emint.dto.InstrumentFilterRequest
 import com.emint.dto.MarketFeedDto
 import com.emint.dto.instruments.OptionTypeEnums
+import com.emint.dto.optionchain.OptionChainDto
 import com.emint.enums.ComparisonType
 import com.emint.enums.PriceField
 import com.emint.enums.SpotOrFuture
@@ -11,7 +11,6 @@ import com.emint.repo.StrategyDetailRepo
 import com.emint.util.RedisUtil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.UUID
 import javax.sound.midi.Instrument
 import kotlin.math.abs
 
@@ -24,7 +23,7 @@ class InstrumentService(
         private val log = LoggerFactory.getLogger(InstrumentService::class.java)
     }
 
-    fun findInstrumentsForEngine(strategyId: UUID) {
+    fun findInstrumentsForEngine(strategyId: Long) {
         val strategy = strategyDetailRepo.findById(strategyId)
         // call findInstrumentsForEngine(InstrumentFilterRequest)
     }

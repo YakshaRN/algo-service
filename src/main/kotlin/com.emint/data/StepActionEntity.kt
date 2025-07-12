@@ -12,14 +12,14 @@ import java.util.*
 data class StepActionEntity(
 
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    var id: UUID = UUID.randomUUID(),
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long?,
 
     @Column(name = "strategy_id")
-    var strategyId: UUID?,
+    var strategyId: Long?,
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "step_name")
+    @Enumerated(EnumType.STRING)
     var stepName: StepName = StepName.ENTRY_CONDITION,
 
     @Column(name = "step_no")

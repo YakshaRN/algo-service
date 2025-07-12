@@ -5,7 +5,6 @@ import com.emint.enum.ActionStatus
 import com.emint.repo.ActionRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class ActionMapper(
@@ -21,26 +20,30 @@ class ActionMapper(
     fun processExpression(step: Action) {
         val expr = step.condition!!
         val (operatorIndex, operator) = findNextTopLevelOperator(expr) ?: run {
-            if (evaluateExpression.evaluateExpression(expr)) {
+            val expressionEvaluationStatus = evaluateExpression.evaluateExpression(expr)
+            if (expressionEvaluationStatus) {
+                step.actionStatus = ActionStatus.EVALUATED
+                step.evaluationStatus = true
+                actionRepo.save(step)
                 nextStepRouterService.processNextCondition(step.nextStep!!)
             }
             return
         }
 
-        val leftExpr = expr.substring(0, operatorIndex)
-        val rightExpr = expr.substring(operatorIndex + 2)
+        val leftExpr = expr.substring(1, operatorIndex)
+        val rightExpr = expr.substring(operatorIndex + 2, expr.length - 1)
 
         return when (operator) {
             "&&" -> {
                 step.condition = rightExpr
-                val prevStep = Action(strategyId = UUID.randomUUID(), condition = leftExpr, actionStatus = ActionStatus.WAITING, nextStep = step.id)
                 actionRepo.save(step)
+                val prevStep = Action(id = null, strategyId = 0L, condition = leftExpr, actionStatus = ActionStatus.WAITING, nextStep = step.id)
                 actionRepo.save(prevStep)
                 processExpression(prevStep)
             }
             "||" -> {
                 step.condition = rightExpr
-                val parallelStep = Action(strategyId = UUID.randomUUID(), condition = leftExpr, actionStatus = ActionStatus.WAITING, nextStep = step.nextStep)
+                val parallelStep = Action(id = null, strategyId = 0L, condition = leftExpr, actionStatus = ActionStatus.WAITING, nextStep = step.nextStep)
                 actionRepo.save(step)
                 actionRepo.save(parallelStep)
                 processExpression(parallelStep)
@@ -52,8 +55,8 @@ class ActionMapper(
 
     private fun findNextTopLevelOperator(expression: String): Pair<Int, String>? {
         var depth = 0
-        var i = 0
-        while (i < expression.length - 1) {
+        var i = 1
+        while (i < expression.length - 2) {
             when (expression[i]) {
                 '(' -> depth++
                 ')' -> depth--

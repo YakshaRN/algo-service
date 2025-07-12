@@ -1,5 +1,6 @@
 package com.emint.data.optionchain
 
+import com.emint.dto.optionchain.OptionChainDto
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
