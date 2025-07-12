@@ -13,11 +13,11 @@ data class StrategyLegEntity(
 
     // TODO: If InstrumentId is present, exchange, segment, symbol are all unnecessary
     @Id
-    @Column(name = "id", nullable = false, unique = true)
-    var id: UUID = UUID.randomUUID(),
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long?,
 
     @Column(name = "strategy_id")
-    var strategyId: UUID,
+    var strategyId: Long,
 
     @Column(name = "leg_name")
     var legName: String = "Leg1",

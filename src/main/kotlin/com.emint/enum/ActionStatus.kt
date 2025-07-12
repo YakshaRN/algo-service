@@ -4,5 +4,6 @@ enum class ActionStatus {
     INITIATED,
     WAITING,
     COMPLETED,
-    FAILED
+    FAILED,
+    EVALUATED
 }

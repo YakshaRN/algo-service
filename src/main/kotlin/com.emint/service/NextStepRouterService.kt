@@ -8,7 +8,6 @@ import com.emint.repo.ActionRepo
 import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class NextStepRouterService(
@@ -20,7 +19,7 @@ class NextStepRouterService(
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun processNextCondition(stepId: UUID) {
+    fun processNextCondition(stepId: Long) {
         try {
             log.info("Processing expression for stepId: $stepId")
             val nextStep = actionRepo.findById(stepId).get()

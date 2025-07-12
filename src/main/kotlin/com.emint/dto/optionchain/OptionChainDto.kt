@@ -1,4 +1,4 @@
-package com.emint.data.optionchain
+package com.emint.dto.optionchain
 
 import com.emint.dto.instruments.ExchangeEnums
 import com.emint.dto.instruments.OptionTypeEnums

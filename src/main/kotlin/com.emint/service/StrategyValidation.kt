@@ -17,6 +17,7 @@ class StrategyValidation(val strategyDetailRepo: StrategyDetailRepo) {
             validateExitCondition(strategyRequest.exitConditions)
         ) {
             val strategyDetailEntity = StrategyDetailEntity(
+                requestId = null,
                 timestamp = Instant.now().toEpochMilli(),
                 userId = userId,
                 strategyRequest = strategyRequest,

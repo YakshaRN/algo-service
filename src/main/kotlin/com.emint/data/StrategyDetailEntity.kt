@@ -15,7 +15,7 @@ data class StrategyDetailEntity(
 
     @Id
     @Column(name = "request_id", nullable = false, unique = true)
-    var requestId: UUID = UUID.randomUUID(),
+    var requestId: Long?,
 
     @Column(name = "timestamp")
     var timestamp: Long?,
@@ -27,7 +27,7 @@ data class StrategyDetailEntity(
     @Column(name = "strategy_request", columnDefinition = "jsonb")
     var strategyRequest: StrategyRequest?,
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     var status: StrategyStatus?
 )

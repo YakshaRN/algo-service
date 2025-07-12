@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface StepActivityRepo : JpaRepository<StepActionEntity, UUID> {
-    fun findByStrategyId(strategyId: UUID): MutableList<StepActionEntity>
-    fun findByStrategyIdAndStepNo(strategyId: UUID, stepNo: Int): StepActionEntity?
+interface StepActivityRepo : JpaRepository<StepActionEntity, Long> {
+    fun findByStrategyId(strategyId: Long): MutableList<StepActionEntity>
+    fun findByStrategyIdAndStepNo(strategyId: Long, stepNo: Int): StepActionEntity?
 }

@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 @Repository
-interface ActionRepo : JpaRepository<Action, UUID>
+interface ActionRepo : JpaRepository<Action, Long>

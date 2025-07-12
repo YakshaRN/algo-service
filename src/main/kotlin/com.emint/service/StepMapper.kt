@@ -10,7 +10,6 @@ import com.emint.model.*
 import com.emint.repo.ActionRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class StepMapper(
@@ -33,21 +32,19 @@ class StepMapper(
 
     private fun evaluateEntryConditions(entryConditions: EntryConditions?) {
         val cleaned = entryConditions?.expression!!.replace("\\s+".toRegex(), "")
-        val step = Action(strategyId = UUID.randomUUID(), condition = STRIKE_SELECTION, actionStatus = ActionStatus.WAITING, nextStep = null)
+        val step = Action(id = null, strategyId = 0L, condition = STRIKE_SELECTION, actionStatus = ActionStatus.WAITING, nextStep = null)
         actionRepo.save(step)
-        val currentStep = Action(strategyId = UUID.randomUUID(), condition = cleaned, actionStatus = ActionStatus.WAITING, nextStep = step.id)
+        val currentStep = Action(id = null, strategyId = 0L, condition = cleaned, actionStatus = ActionStatus.WAITING, nextStep = step.id)
         actionMapper.processExpression(currentStep)
 
-        val bool = evaluateExpression.evaluateExpression(entryConditions.expression)
-        println("bool: $bool")
         return
-        TODO("Not yet implemented")
+        TODO("Not yet implemented YET")
     }
 
     private fun evaluateBrokerSymbols(steps: MutableList<StepActionEntity>, strikeSelection: StrikeSelection?): StepActionEntity {
         // list of --> BrokerSymbol
-        TODO("Not yet implemented")
-        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.STRIKE_SELECTION, 1, StepStatus.INITIATED)
+        TODO("Not yet implemented YET")
+        return StepActionEntity(0L, 0L, StepName.STRIKE_SELECTION, 1, StepStatus.INITIATED)
     }
 
     private fun evaluateExecutionOrder(executionSequence: ExecutionSequence?, exitConditions: ExitConditions?): MutableList<StepActionEntity> {
@@ -59,13 +56,13 @@ class StepMapper(
         evaluateExitConditions(exitConditions)
         // condition4 -> on Execution of L3 --> send L4
         // condition4 -> on Execution of L4 --> do nothing
-        TODO("Not yet implemented")
+        TODO("Not yet implemented YET")
         return mutableListOf()
     }
 
     private fun evaluateExitConditions(exitConditions: ExitConditions?): StepActionEntity {
         // Separation Of If/When/TimeBased --> requires intelligence later
-        TODO("Not yet implemented")
-        return StepActionEntity(UUID.randomUUID(), UUID.randomUUID(), StepName.EXIT_CONDITION, 1, StepStatus.INITIATED)
+        TODO("Not yet implemented YET")
+        return StepActionEntity(0L, 0L, StepName.EXIT_CONDITION, 1, StepStatus.INITIATED)
     }
 }

@@ -6,7 +6,6 @@ import com.emint.model.*
 import com.emint.repo.StrategyLegRepo
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class OrderPlacement(
@@ -17,7 +16,7 @@ class OrderPlacement(
         private val log = LoggerFactory.getLogger(this::class.java)
     }
 
-    fun placeOrder(strategyId: UUID, expression: String) {
+    fun placeOrder(strategyId: Long, expression: String) {
         val parts = expression.split(" ")
         val legName = parts[1] // "Leg1"
         val strategyLeg = strategyLegRepo.findByStrategyIdAndLegName(strategyId, legName)
@@ -25,7 +24,7 @@ class OrderPlacement(
         validationServiceProxy.placeOrder("userId", order)
     }
 
-    fun exitOrder(strategyId: UUID, expression: String) {
+    fun exitOrder(strategyId: Long, expression: String) {
         val parts = expression.split(" ")
         val arrayOfLegs = parts[1].split(",") // "Leg1"
         val strategyLegs = strategyLegRepo.findByStrategyIdAndLegNameIn(strategyId, arrayOfLegs)

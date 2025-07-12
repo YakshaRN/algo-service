@@ -38,7 +38,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-function-web")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.apache.kafka:kafka-streams")
-    implementation("org.apache.kafka:kafka-clients:3.6.0")
+    implementation("org.apache.kafka:kafka-clients:3.9.1")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
