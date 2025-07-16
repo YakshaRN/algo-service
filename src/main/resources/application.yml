@@ -8,6 +8,12 @@ serviceUrl:
   chartService: https://dev.e-mint.in/chart
   validationServiceUrl: https://dev.e-mint.in/order-validation
 
+kite:
+  api:
+    key: 123
+    secret: 12345
+    redirect-url: http://localhost:8080/api/auth/callback
+
 # Spring Boot configuration
 spring:
   profiles:
@@ -21,10 +27,25 @@ spring:
       database: 1
       connection-timeout: 500
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5487/emint?currentSchema=user_algo_service
-    username: emint_develop
-    password: develop-quant-654
+    primary:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://localhost:5487/emint?currentSchema=user_algo_service
+      username: emint_develop
+      password: develop-quant-654
+    secondary:
+      driver-class-name: org.postgresql.Driver
+      jdbc-url: jdbc:postgresql://52.66.22.245:5432/emint-timescale?currentSchema=public&ApplicationName=historical-market-data-service&reWriteBatchedInserts=true
+      username: emint_develop
+      password: develop@quant@654
+      hikari:
+        connection-timeout: 5000
+        idle-timeout: 300000
+        maximum-pool-size: 60
+        minimum-idle: 40
+        pool-name: historical-market-data-service-pool
+        leak-detection-threshold: 60000
+        keepalive-time: 60000
+      type: com.zaxxer.hikari.HikariDataSource
 
   jpa:
     hibernate:

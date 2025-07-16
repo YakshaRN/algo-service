@@ -57,6 +57,8 @@ dependencies {
     testImplementation("org.springframework.cloud:spring-cloud-stream-test-binder")
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    implementation("com.zerodhatech.kiteconnect:kiteconnect:3.5.0")
 }
 
 dependencyManagement {
